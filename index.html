@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Anu Sree 💖</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-hearts"></div>
+    <div class="sparkles"></div>
+    <div class="balloons"></div>
+    
+    <!-- Confetti Container -->
+    <canvas id="confetti"></canvas>
+    
+    <!-- Cursor Trail -->
+    <div class="cursor-sparkle"></div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1 class="main-title">
+                Happy Birthday<br>
+                <span class="name-highlight">Anu Sree</span> 💖
+            </h1>
+            <p class="subtitle">A little corner of the internet made just for you ✨</p>
+        </div>
+    </section>
+    
+    <!-- Sweet Message Section -->
+    <section class="message-section slide-up">
+        <div class="container">
+            <div class="card glow-card">
+                <h2>Dear Anu Sree 💕</h2>
+                <p>Today is your special day, and the world is a little brighter because you're in it! Your kindness, warmth, and beautiful spirit make every moment magical. May this year bring you endless joy, dreams come true, and all the happiness your heart can hold. You deserve the world and so much more! 🌸</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Animated Cake Section -->
+    <section class="cake-section slide-up">
+        <div class="container">
+            <div class="cake-container">
+                <div class="blow-instruction" id="blowInstruction">
+                    💨 Tap the button to blow out the candles! 🎂
+                </div>
+                <button class="blow-button" id="blowButton">
+                    💨 Blow Candles
+                </button>
+                <div class="cake" id="cake">
+                    <!-- Candles -->
+                    <div class="candle candle-active" data-candle="1">
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle candle-active" data-candle="2">
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle candle-active" data-candle="3">
+                        <div class="flame"></div>
+                    </div>
+                    
+                    <!-- Top Layer -->
+                    <div class="cake-layer layer-3">
+                        <div class="frosting-top"></div>
+                        <div class="cake-decoration deco-1">🌸</div>
+                        <div class="cake-decoration deco-2">🌸</div>
+                        <div class="sprinkles"></div>
+                    </div>
+                    
+                    <!-- Middle Layer -->
+                    <div class="cake-layer layer-2">
+                        <div class="frosting-drip drip-1"></div>
+                        <div class="frosting-drip drip-2"></div>
+                        <div class="frosting-drip drip-3"></div>
+                        <div class="frosting-drip drip-4"></div>
+                        <div class="cake-decoration deco-3">💕</div>
+                        <div class="cake-decoration deco-4">💕</div>
+                        <div class="cake-decoration deco-5">💕</div>
+                    </div>
+                    
+                    <!-- Bottom Layer -->
+                    <div class="cake-layer layer-1">
+                        <div class="frosting-drip drip-5"></div>
+                        <div class="frosting-drip drip-6"></div>
+                        <div class="frosting-drip drip-7"></div>
+                        <div class="frosting-drip drip-8"></div>
+                        <div class="frosting-drip drip-9"></div>
+                        <div class="cake-decoration deco-6">⭐</div>
+                        <div class="cake-decoration deco-7">⭐</div>
+                        <div class="cake-decoration deco-8">⭐</div>
+                        <div class="cake-decoration deco-9">⭐</div>
+                    </div>
+                    
+                    <!-- Cake Plate -->
+                    <div class="cake-plate"></div>
+                </div>
+                <p class="cake-text" id="cakeText">Make a wish, Anu Sree! 🎂✨</p>
+                <div class="wish-message" id="wishMessage">
+                    🎉 Your wish has been made! May all your dreams come true! 🌟💖
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Compliments Section -->
+    <section class="compliments-section slide-up">
+        <div class="container">
+            <h2 class="section-title">What Makes You Special ✨</h2>
+            <div class="compliments-grid">
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">😊</div>
+                    <p>Your smile lights up everything</p>
+                </div>
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">🌟</div>
+                    <p>You shine brighter than stars</p>
+                </div>
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">💝</div>
+                    <p>Your heart is pure gold</p>
+                </div>
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">🦋</div>
+                    <p>You bring beauty everywhere</p>
+                </div>
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">🌸</div>
+                    <p>You bloom with grace</p>
+                </div>
+                <div class="compliment-card bounce-hover">
+                    <div class="icon">✨</div>
+                    <p>You make life magical</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Game Section -->
+    <section class="game-section slide-up">
+        <div class="container">
+            <h2 class="section-title">Let's Play! 🎮</h2>
+            <div class="game-box">
+                <h3>Pop the Balloons! 🎈</h3>
+                <p class="game-instructions">Click the balloons to pop them and reveal sweet messages!</p>
+                <div class="score-board">
+                    <span>Popped: <span id="score">0</span>/10</span>
+                </div>
+                <div class="game-area" id="gameArea"></div>
+                <button class="reset-btn" id="resetGame">Play Again 🔄</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Surprise Section -->
+    <section class="surprise-section slide-up">
+        <div class="container">
+            <div class="surprise-box">
+                <h2>A Special Surprise 🎁</h2>
+                <button class="surprise-btn" id="surpriseBtn">Click Me!</button>
+                <div class="surprise-message" id="surpriseMessage">
+                    <p>🎉 You are absolutely amazing, Anu Sree! Never forget how special you are and how much joy you bring to everyone around you. Keep shining, keep smiling, and keep being the wonderful person you are! The best is yet to come! 💖✨🌈</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final Note Section -->
+    <section class="final-section slide-up">
+        <div class="container">
+            <div class="final-card">
+                <h2>Wishing You... 🌙</h2>
+                <p>✨ Endless happiness and laughter</p>
+                <p>💫 Dreams that come true</p>
+                <p>🌸 Love that surrounds you always</p>
+                <p>🎈 Adventures and beautiful memories</p>
+                <p>💖 A year filled with magic and wonder</p>
+                <div class="heart-float">💕</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Music Toggle -->
+    <button class="music-toggle" id="musicToggle">🎵</button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

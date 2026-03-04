@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "name": "happy-birthday-anu-sree",
+  "builds": [
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    }
+  ]
+}
