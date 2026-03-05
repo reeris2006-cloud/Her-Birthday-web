@@ -487,6 +487,96 @@ resetBtn.addEventListener('click', createGameBalloons);
 // Initialize game on load
 createGameBalloons();
 
+// Photo Gallery Scroll Animation - Clean & Clear
+const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+
+function animateOnScroll() {
+    scrollAnimateElements.forEach((element, index) => {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const elementTop = rect.top;
+        const elementHeight = rect.height;
+        
+        // Calculate when element is in viewport
+        const scrollProgress = Math.max(0, Math.min(1, 
+            (windowHeight - elementTop) / (windowHeight + elementHeight)
+        ));
+        
+        let rotation = 0;
+        let translateX = 0;
+        let translateY = 0;
+        let scale = 1;
+        let opacity = 1;
+        
+        // Smooth entrance animations
+        if (scrollProgress < 0.3) {
+            // Before entering viewport
+            opacity = 0;
+            scale = 0.8;
+            
+            if (index === 0) {
+                translateX = -100;
+                rotation = -15;
+            } else if (index === 1) {
+                translateY = 100;
+                rotation = 0;
+            } else if (index === 2) {
+                translateX = 100;
+                rotation = 15;
+            }
+        } else if (scrollProgress >= 0.3 && scrollProgress <= 0.7) {
+            // Animating into center
+            const progress = (scrollProgress - 0.3) / 0.4; // 0 to 1
+            opacity = progress;
+            scale = 0.8 + (progress * 0.2);
+            
+            if (index === 0) {
+                translateX = -100 * (1 - progress);
+                rotation = -15 * (1 - progress);
+            } else if (index === 1) {
+                translateY = 100 * (1 - progress);
+            } else if (index === 2) {
+                translateX = 100 * (1 - progress);
+                rotation = 15 * (1 - progress);
+            }
+        } else {
+            // Centered and visible
+            opacity = 1;
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            rotation = 0;
+        }
+        
+        // Apply smooth transforms
+        element.style.transform = `
+            translateX(${translateX}px) 
+            translateY(${translateY}px) 
+            rotate(${rotation}deg) 
+            scale(${scale})
+        `;
+        element.style.opacity = opacity;
+    });
+}
+
+// Smooth scroll animation with requestAnimationFrame
+let ticking = false;
+
+function requestTick() {
+    if (!ticking) {
+        requestAnimationFrame(() => {
+            animateOnScroll();
+            ticking = false;
+        });
+        ticking = true;
+    }
+}
+
+// Run on scroll with throttling
+window.addEventListener('scroll', requestTick);
+// Run on load
+animateOnScroll();
+
 // Blow the Candles Feature - Simple Click Version
 const blowButton = document.getElementById('blowButton');
 const cakeText = document.getElementById('cakeText');
