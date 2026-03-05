@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Fireworks Canvas -->
+    <canvas id="fireworks"></canvas>
+    
     <!-- Floating Background Elements -->
     <div class="floating-hearts"></div>
     <div class="sparkles"></div>
@@ -22,16 +25,23 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content fade-in">
-            <h1 class="main-title">
-                Happy Birthday<br>
-                <span class="name-highlight">Anu Sree</span> 💖
+            <h1 class="main-title animated-title">
+                <span class="word-1">Happy</span> <span class="word-2">Birthday</span><br>
+                <span class="name-highlight bounce-name">Anu Sree</span> 
+                <span class="heart-icon">💖</span>
             </h1>
-            <p class="subtitle">A little corner of the internet made just for you ✨</p>
+            <p class="subtitle glow-text">A little corner of the internet made just for you ✨</p>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="scroll-indicator">
+            <p>Scroll Down</p>
+            <div class="scroll-arrow">↓</div>
         </div>
     </section>
     
     <!-- Sweet Message Section -->
-    <section class="message-section slide-up">
+    <section class="message-section slide-up hidden-section">
         <div class="container">
             <div class="card glow-card">
                 <h2>Dear Anu Sree 💕</h2>
@@ -41,12 +51,9 @@
     </section>
     
     <!-- Animated Cake Section -->
-    <section class="cake-section slide-up">
+    <section class="cake-section slide-up hidden-section">
         <div class="container">
             <div class="cake-container">
-                <div class="blow-instruction" id="blowInstruction">
-                    💨 Tap the button to blow out the candles! 🎂
-                </div>
                 <button class="blow-button" id="blowButton">
                     💨 Blow Candles
                 </button>
@@ -106,7 +113,7 @@
     </section>
     
     <!-- Compliments Section -->
-    <section class="compliments-section slide-up">
+    <section class="compliments-section slide-up hidden-section">
         <div class="container">
             <h2 class="section-title">What Makes You Special ✨</h2>
             <div class="compliments-grid">
@@ -139,7 +146,7 @@
     </section>
     
     <!-- Game Section -->
-    <section class="game-section slide-up">
+    <section class="game-section slide-up hidden-section">
         <div class="container">
             <h2 class="section-title">Let's Play! 🎮</h2>
             <div class="game-box">
@@ -155,7 +162,7 @@
     </section>
     
     <!-- Surprise Section -->
-    <section class="surprise-section slide-up">
+    <section class="surprise-section slide-up hidden-section">
         <div class="container">
             <div class="surprise-box">
                 <h2>A Special Surprise 🎁</h2>
@@ -168,7 +175,7 @@
     </section>
     
     <!-- Final Note Section -->
-    <section class="final-section slide-up">
+    <section class="final-section slide-up hidden-section">
         <div class="container">
             <div class="final-card">
                 <h2>Wishing You... 🌙</h2>
@@ -183,9 +190,9 @@
     </section>
     
     <!-- Music Toggle -->
-    <button class="music-toggle" id="musicToggle">🎵</button>
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" type="audio/mpeg">
+    <button class="music-toggle" id="musicToggle">🔊</button>
+    <audio id="bgMusic" loop autoplay>
+        <source src="Charlie Puth - Attention [Official Video] Ringtone.mp3" type="audio/mpeg">
     </audio>
     
     <script src="script.js"></script>

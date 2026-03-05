@@ -1,3 +1,128 @@
+// Fireworks Animation
+const fireworksCanvas = document.getElementById('fireworks');
+const fwCtx = fireworksCanvas.getContext('2d');
+fireworksCanvas.width = window.innerWidth;
+fireworksCanvas.height = window.innerHeight;
+
+class Firework {
+    constructor() {
+        this.x = Math.random() * fireworksCanvas.width;
+        this.y = fireworksCanvas.height;
+        this.targetY = Math.random() * fireworksCanvas.height * 0.4;
+        this.speed = 5;
+        this.particles = [];
+        this.exploded = false;
+        this.color = ['#ff1493', '#ffd700', '#ff6b35', '#00ff00', '#00ffff', '#ff69b4'][Math.floor(Math.random() * 6)];
+    }
+    
+    update() {
+        if (!this.exploded) {
+            this.y -= this.speed;
+            if (this.y <= this.targetY) {
+                this.explode();
+            }
+        } else {
+            this.particles.forEach((particle, index) => {
+                particle.update();
+                if (particle.alpha <= 0) {
+                    this.particles.splice(index, 1);
+                }
+            });
+        }
+    }
+    
+    explode() {
+        this.exploded = true;
+        for (let i = 0; i < 80; i++) {
+            this.particles.push(new Particle(this.x, this.y, this.color));
+        }
+    }
+    
+    draw() {
+        if (!this.exploded) {
+            fwCtx.shadowBlur = 10;
+            fwCtx.shadowColor = this.color;
+            fwCtx.beginPath();
+            fwCtx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+            fwCtx.fillStyle = this.color;
+            fwCtx.fill();
+            fwCtx.shadowBlur = 0;
+        } else {
+            this.particles.forEach(particle => particle.draw());
+        }
+    }
+}
+
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 10,
+            y: (Math.random() - 0.5) * 10
+        };
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.008;
+        this.size = Math.random() * 3 + 2;
+    }
+    
+    update() {
+        this.velocity.y += 0.15;
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= this.decay;
+    }
+    
+    draw() {
+        fwCtx.save();
+        fwCtx.globalAlpha = this.alpha;
+        fwCtx.shadowBlur = 15;
+        fwCtx.shadowColor = this.color;
+        fwCtx.beginPath();
+        fwCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        fwCtx.fillStyle = this.color;
+        fwCtx.fill();
+        fwCtx.restore();
+    }
+}
+
+let fireworks = [];
+let fireworkInterval;
+
+function animateFireworks() {
+    fwCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+    
+    fireworks.forEach((firework, index) => {
+        firework.update();
+        firework.draw();
+        
+        if (firework.exploded && firework.particles.length === 0) {
+            fireworks.splice(index, 1);
+        }
+    });
+    
+    requestAnimationFrame(animateFireworks);
+}
+
+// Start fireworks on page load
+function startFireworks() {
+    fireworkInterval = setInterval(() => {
+        fireworks.push(new Firework());
+    }, 300);
+    
+    // Stop after 8 seconds
+    setTimeout(() => {
+        clearInterval(fireworkInterval);
+        setTimeout(() => {
+            fwCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+        }, 3000);
+    }, 8000);
+}
+
+animateFireworks();
+startFireworks();
+
 // Cursor Sparkle Effect
 const cursorSparkle = document.querySelector('.cursor-sparkle');
 let mouseX = 0, mouseY = 0;
@@ -57,7 +182,7 @@ class Confetti {
 }
 
 let confettiArray = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 30; i++) {
     confettiArray.push(new Confetti());
 }
 
@@ -87,7 +212,7 @@ function createHeart() {
     setTimeout(() => heart.remove(), 13000);
 }
 
-setInterval(createHeart, 800);
+setInterval(createHeart, 1500);
 
 // Sparkles
 const sparklesContainer = document.querySelector('.sparkles');
@@ -106,7 +231,7 @@ function createSparkle() {
     setTimeout(() => sparkle.remove(), 4000);
 }
 
-setInterval(createSparkle, 600);
+setInterval(createSparkle, 2000);
 
 // Balloons
 const balloonsContainer = document.querySelector('.balloons');
@@ -124,7 +249,7 @@ function createBalloon() {
     setTimeout(() => balloon.remove(), 16000);
 }
 
-setInterval(createBalloon, 1500);
+setInterval(createBalloon, 2500);
 
 // CSS for floating animations
 const style = document.createElement('style');
@@ -147,8 +272,8 @@ document.head.appendChild(style);
 
 // Scroll Animation Observer
 const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -170,7 +295,7 @@ surpriseBtn.addEventListener('click', () => {
     surpriseBtn.style.display = 'none';
     
     // Extra confetti burst
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 20; i++) {
         confettiArray.push(new Confetti());
     }
     
@@ -213,26 +338,46 @@ burstStyle.textContent = `
 `;
 document.head.appendChild(burstStyle);
 
-// Music Toggle
+// Music Toggle - Autoplay with Mute/Unmute
 const musicToggle = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
-let isPlaying = false;
+let isMuted = false;
 
-musicToggle.addEventListener('click', () => {
-    if (isPlaying) {
-        bgMusic.pause();
-        musicToggle.textContent = '🎵';
-    } else {
-        bgMusic.play();
+// Try to autoplay when page loads
+window.addEventListener('load', () => {
+    bgMusic.play().then(() => {
+        // Autoplay successful
+        musicToggle.textContent = '🔊';
+        isMuted = false;
+    }).catch(err => {
+        // Autoplay blocked by browser, start muted
+        console.log('Autoplay blocked, user needs to interact first');
+        bgMusic.muted = true;
         musicToggle.textContent = '🔇';
+        isMuted = true;
+    });
+});
+
+// Mute/Unmute toggle
+musicToggle.addEventListener('click', () => {
+    if (isMuted) {
+        bgMusic.muted = false;
+        bgMusic.play().catch(err => console.log('Play failed:', err));
+        musicToggle.textContent = '🔊';
+        isMuted = false;
+    } else {
+        bgMusic.muted = true;
+        musicToggle.textContent = '🔇';
+        isMuted = true;
     }
-    isPlaying = !isPlaying;
 });
 
 // Window resize handler
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    fireworksCanvas.width = window.innerWidth;
+    fireworksCanvas.height = window.innerHeight;
 });
 
 // Add parallax effect
@@ -242,6 +387,18 @@ window.addEventListener('scroll', () => {
     parallaxElements.forEach(el => {
         el.style.transform = `translateY(${scrolled * 0.5}px)`;
     });
+    
+    // Hide scroll indicator when scrolling
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        if (scrolled > 100) {
+            scrollIndicator.style.opacity = '0';
+            scrollIndicator.style.pointerEvents = 'none';
+        } else {
+            scrollIndicator.style.opacity = '1';
+            scrollIndicator.style.pointerEvents = 'all';
+        }
+    }
 });
 
 // Game Section - Pop the Balloons
@@ -301,7 +458,7 @@ function createGameBalloons() {
                 if (balloonsPopped === 10) {
                     setTimeout(() => {
                         // Victory confetti
-                        for (let i = 0; i < 100; i++) {
+                        for (let i = 0; i < 40; i++) {
                             confettiArray.push(new Confetti());
                         }
                         
@@ -332,7 +489,6 @@ createGameBalloons();
 
 // Blow the Candles Feature - Simple Click Version
 const blowButton = document.getElementById('blowButton');
-const blowInstruction = document.getElementById('blowInstruction');
 const cakeText = document.getElementById('cakeText');
 const wishMessage = document.getElementById('wishMessage');
 const candles = document.querySelectorAll('.candle');
@@ -386,17 +542,16 @@ function createSmoke(candle) {
 
 function allCandlesBlown() {
     blowButton.style.display = 'none';
-    blowInstruction.style.display = 'none';
     cakeText.textContent = '🎉 Wish made! 🎉';
     wishMessage.classList.add('show');
     
     // Celebration confetti
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 50; i++) {
         confettiArray.push(new Confetti());
     }
     
     // Create floating hearts
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.innerHTML = '💖';
